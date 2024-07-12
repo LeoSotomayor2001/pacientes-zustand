@@ -1,11 +1,14 @@
 import { useForm } from "react-hook-form"
 import { Error } from "./Error"
+import { DraftPatient } from "../types"
+import { usePatientsStore } from "../store"
 
 export const PatientForm = () => {
-    const {register,handleSubmit,formState:{errors}}= useForm()
+    const {addPatient} = usePatientsStore()
+    const {register,handleSubmit,formState:{errors}}= useForm<DraftPatient>()
 
-    const registerPatient=()=>{
-        console.log('nuevo paciente registrado')
+    const registerPatient=(data : DraftPatient)=>{
+        addPatient(data)
     }
   return (
     <div className="md:w-1/2 lg:w-2/5 mx-5">
@@ -34,7 +37,7 @@ export const PatientForm = () => {
                         required: 'El nombre del paciente es obligatorio'
                       })}
                   />
-                    {errors.name && <Error>{errors.name.message?.toString()}</Error>}
+                    {errors.name && <Error>{errors.name.message}</Error>}
 
               </div>
 
@@ -51,7 +54,7 @@ export const PatientForm = () => {
                         required: 'El propietario es obligatorio'
                       })}
                 />
-                    {errors.caretaker && <Error>{errors.caretaker.message?.toString()}</Error>}
+                    {errors.caretaker && <Error>{errors.caretaker.message}</Error>}
               </div>
 
             <div className="mb-5">
@@ -71,7 +74,7 @@ export const PatientForm = () => {
                     }
                   })} 
               />
-                {errors.email && <Error>{errors.email.message?.toString()}</Error>}
+                {errors.email && <Error>{errors.email.message}</Error>}
             </div>
 
             <div className="mb-5">
@@ -87,7 +90,7 @@ export const PatientForm = () => {
                         min: {value: new Date().toISOString().split('T')[0], message: 'La fecha no puede ser menor a la fecha actual'}
                     })}
                 />
-                {errors.date && <Error>{errors.date.message?.toString()}</Error>}
+                {errors.date && <Error>{errors.date.message}</Error>}
             </div>
             
             <div className="mb-5">
@@ -102,7 +105,7 @@ export const PatientForm = () => {
                         required: 'Los sintomas son obligatorios'
                     })}
                 ></textarea>
-                {errors.symptoms && <Error>{errors.symptoms.message?.toString()}</Error>}
+                {errors.symptoms && <Error>{errors.symptoms.message}</Error>}
             </div>
 
             <input
